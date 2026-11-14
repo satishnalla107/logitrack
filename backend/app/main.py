@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
@@ -8,9 +9,14 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="LogiTrack API", version="1.0.0")
 
+frontend_url = os.getenv("FRONTEND_URL", "")
+allowed_origins = ["http://localhost:4200"]
+if frontend_url:
+    allowed_origins.append(frontend_url.rstrip("/"))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
