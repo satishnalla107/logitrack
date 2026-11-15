@@ -17,7 +17,10 @@ export interface Shipment {
   providedIn: 'root',
 })
 export class ApiService {
-  private baseUrl = 'http://127.0.0.1:8000/api';
+  private baseUrl = 
+    window.location.hostname === 'localhost'
+    ? 'http://127.0.0.1:8000/api'
+    : 'https://logitrack-api-nxb5.onrender.com/api';
 
   constructor(private http: HttpClient) {}
 
